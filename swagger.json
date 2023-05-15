@@ -1,0 +1,1107 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Disney API",
+    "version": "1.0.0",
+    "description": "Descripción de la API de Disney"
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Operaciones relacionadas con la creacion de usuario y login"
+    },
+    {
+      "name": "Characters",
+      "description": "Operaciones relacionadas con los personajes"
+    },
+    {
+      "name": "Contents",
+      "description": "Operaciones relacionadas con los contenidos"
+    },
+    {
+      "name": "Genres",
+      "description": "Operaciones relacionadas con los generos"
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Registrar un nuevo usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Respuesta exitosa"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Iniciar sesión",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa"
+          }
+        }
+      }
+    },
+    "/api/v1/characters": {
+      "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Obtener todos los personajes",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nombre del personaje",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "description": "Edad del personaje",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "contentId",
+            "in": "query",
+            "description": "ID del contenido asociado",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Crear un nuevo personaje",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharacterInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Personaje creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{id}": {
+      "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Obtener un personaje por su ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Actualizar un personaje existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharacterInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Personaje actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterOutput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Eliminar un personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Personaje eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{id}/content": {
+      "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Obtener los contenidos de un personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contenidos obtenidos exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContentOutput"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Agregar contenido a un personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContentInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Contenido agregado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{id}/content/{content_id}": {
+      "delete": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Eliminar contenido de un personaje",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del personaje",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "content_id",
+            "in": "path",
+            "description": "ID del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contenido eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contents": {
+      "get": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Obtener lista de contenidos",
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Crear contenido",
+        "description": "Crea un nuevo contenido en la base de datos.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostContentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "El contenido ha sido creado con éxito.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostContentOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contents/{id}": {
+      "get": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Obtener información de un contenido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Actualizar contenido",
+        "description": "Actualiza un contenido existente en la base de datos.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID del contenido que se desea actualizar.",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateContentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "El contenido ha sido actualizado con éxito.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateContentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/content/{id}/genre": {
+      "get": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Obtener géneros de un contenido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetContentGenresResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contenido no encontrado"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Agregar género a un contenido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddContentGenreInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contenido o género no encontrado"
+          }
+        }
+      }
+    },
+    "/api/v1/content/{id}/genre/{genre_id}": {
+      "delete": {
+        "tags": [
+          "Contents"
+        ],
+        "summary": "Eliminar género de un contenido",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "genre_id",
+            "in": "path",
+            "description": "ID del género a eliminar del contenido",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponseDel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contenido o género no encontrado"
+          }
+        }
+      }
+    },
+    "/api/v1/genres": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Obtener géneros",
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenresResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Crear un nuevo género",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenreInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Respuesta exitosa"
+          }
+        }
+      }
+    },
+    "/api/v1/genres/{id}": {
+      "put": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Actualizar un género existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID del género a actualizar."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenreInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Eliminar un género existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID del género a eliminar."
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Respuesta exitosa"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "El correo electrónico del usuario."
+          },
+          "password": {
+            "type": "string",
+            "description": "La contraseña del usuario."
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "El correo electrónico del usuario."
+          },
+          "password": {
+            "type": "string",
+            "description": "La contraseña del usuario."
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "CharacterResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "integer",
+            "description": "Indicador de éxito de la solicitud"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Character"
+            },
+            "description": "Datos de los personajes"
+          }
+        }
+      },
+      "Character": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nombre del personaje"
+          },
+          "age": {
+            "type": "integer",
+            "description": "Edad del personaje"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Peso del personaje"
+          },
+          "history": {
+            "type": "string",
+            "description": "Historia del personaje"
+          },
+          "image": {
+            "type": "string",
+            "description": "Imagen del personaje"
+          }
+        }
+      },
+      "CharacterInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "history": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "CharacterOutput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "history": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteResponse": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          }
+        }
+      },
+      "AddContentInput": {
+        "type": "object",
+        "properties": {
+          "content_id": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Content"
+            }
+          }
+        }
+      },
+      "Content": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "creation_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PostContentInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "creation_date": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          }
+        }
+      },
+      "PostContentOutput": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "number",
+            "description": "Indica si la petición se ha procesado con éxito."
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "El título del contenido creado."
+              },
+              "image": {
+                "type": "string",
+                "description": "La URL de la imagen del contenido creado."
+              },
+              "creation_date": {
+                "type": "string",
+                "description": "La fecha de creación del contenido creado (formato yyyy-mm-dd)."
+              },
+              "rating": {
+                "type": "number",
+                "description": "La calificación del contenido creado (de 1 a 5)."
+              }
+            },
+            "required": [
+              "title",
+              "image",
+              "creation_date",
+              "rating"
+            ]
+          }
+        },
+        "required": [
+          "ok",
+          "data"
+        ]
+      },
+      "UpdateContentRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "El nuevo título del contenido."
+          },
+          "image": {
+            "type": "string",
+            "description": "La nueva URL de la imagen del contenido."
+          },
+          "creation_date": {
+            "type": "string",
+            "description": "La nueva fecha de creación del contenido (formato yyyy-mm-dd)."
+          },
+          "rating": {
+            "type": "number",
+            "description": "La nueva calificación del contenido (de 1 a 5)."
+          }
+        }
+      },
+      "UpdateContentResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "number",
+            "description": "Indica si la petición se ha procesado con éxito."
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "El título actualizado del contenido."
+              },
+              "image": {
+                "type": "string",
+                "description": "La URL de la imagen actualizada del contenido."
+              },
+              "creation_date": {
+                "type": "string",
+                "description": "La fecha de creación actualizada del contenido (formato yyyy-mm-dd)."
+              },
+              "rating": {
+                "type": "number",
+                "description": "La calificación actualizada del contenido (de 1 a 5)."
+              }
+            },
+            "required": [
+              "title",
+              "image",
+              "creation_date",
+              "rating"
+            ]
+          }
+        },
+        "required": [
+          "ok",
+          "data"
+        ]
+      },
+      "GetContentGenresResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "number",
+            "description": "Indica si la petición se ha procesado con éxito."
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Genre"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "data"
+        ]
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "El nombre del género."
+          },
+          "image": {
+            "type": "string",
+            "description": "La URL de la imagen del género."
+          }
+        },
+        "required": [
+          "name",
+          "image"
+        ]
+      },
+      "AddContentGenreInput": {
+        "type": "object",
+        "properties": {
+          "genre_id": {
+            "type": "string",
+            "description": "ID del género a agregar al contenido"
+          }
+        },
+        "required": [
+          "genre_id"
+        ]
+      },
+      "SuccessResponseContent": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "number",
+            "description": "Indica si la petición se ha procesado con éxito."
+          },
+          "data": {
+            "type": "string",
+            "description": "Mensaje de éxito"
+          }
+        },
+        "required": [
+          "ok",
+          "data"
+        ]
+      },
+      "SuccessResponseDel": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "integer",
+            "description": "Código de éxito"
+          },
+          "data": {
+            "type": "string",
+            "description": "Mensaje de éxito"
+          }
+        }
+      },
+      "GenresResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "integer",
+            "description": "Indicador de éxito de la respuesta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Genre"
+            },
+            "description": "Lista de géneros"
+          }
+        }
+      },
+      "GenreInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "El nombre del nuevo género."
+          },
+          "image": {
+            "type": "string",
+            "description": "La URL de la imagen del nuevo género."
+          }
+        },
+        "required": [
+          "name",
+          "image"
+        ]
+      }
+    }
+  }
+}

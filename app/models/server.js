@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../swagger.json');
 const { authRouter, characterRouter, contentRouter, genreControllers, userRouter } = require('../routes');
 const db = require('../../config/database');
 
@@ -39,6 +41,8 @@ class Server {
         // this.app.use(express.static('public'));
         //Body parser
         this.app.use(express.json());
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
     }
 
     routes() {

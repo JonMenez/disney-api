@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
+const path = require('path');
 const swaggerDocument = require('../../swagger.json');
 const { authRouter, characterRouter, contentRouter, genreControllers, userRouter } = require('../routes');
 const db = require('../../config/database');
@@ -38,7 +39,7 @@ class Server {
         //CORS
         this.app.use(cors())
         //Static files
-        this.app.use(express.static('public'));
+        this.app.use(express.static(path.join(__dirname, '../public')));
         //Body parser
         this.app.use(express.json());
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

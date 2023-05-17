@@ -38,7 +38,7 @@ class Server {
         //CORS
         this.app.use(cors())
         //Static files
-        // this.app.use(express.static('public'));
+        this.app.use(express.static('public'));
         //Body parser
         this.app.use(express.json());
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
